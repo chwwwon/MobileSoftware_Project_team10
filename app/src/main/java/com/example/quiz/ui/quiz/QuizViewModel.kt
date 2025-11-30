@@ -5,10 +5,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.example.quiz.data.QuizDataManager
 import com.example.quiz.data.QuizQuestion
 import com.example.quiz.data.QuizRepository
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
-class QuizViewModel(category: String): ViewModel() {
+class QuizViewModel(private val category: String): ViewModel() {
 
     private val questions = QuizRepository.getQuestions(category)
 
@@ -33,27 +37,34 @@ class QuizViewModel(category: String): ViewModel() {
     val currentQuestion: QuizQuestion
         get() = questions[currentIndex]
 
-    // 선택 단순 처리 (선택/취소)
+    init {
+        if(currentIndex == 0) {
+            QuizDataManager.clearCurrentWrongAnswers()
+        }
+    }
+
     fun selectAnswer(index: Int) {
         selectedAnswerIndex =
-            if (selectedAnswerIndex == index) -1 // 같은 걸 누르면 취소
+            if (selectedAnswerIndex == index) -1
             else index
     }
 
-    // 제출 버튼 눌렀을 때 실행됨
     fun submitAnswer(): Boolean {
-        if (selectedAnswerIndex == -1) return false // 선택 없으면 제출 불가
+        if (selectedAnswerIndex == -1) return false
 
         isCorrect = (selectedAnswerIndex == currentQuestion.answerIndex)
         isAnswerChecked = true
 
-        if (isCorrect == true) score++
+        if (isCorrect == true) {
+            score += 10
+        } else {
+            QuizDataManager.addWrongAnswer(currentQuestion, selectedAnswerIndex)
+        }
 
         return true
     }
 
     fun goToNext() {
-        // 다음 문제로 넘어가기 전에 state초기화
         selectedAnswerIndex = -1
         isAnswerChecked = false
         isCorrect = null
@@ -62,7 +73,17 @@ class QuizViewModel(category: String): ViewModel() {
     }
     fun isLastQuestion(): Boolean = currentIndex == questions.size - 1
 
-    fun isFinished(): Boolean = currentIndex >= questions.size
+    fun saveRank() {
+        val sdf = SimpleDateFormat("MM-dd HH:mm", Locale.getDefault())
+        val date = sdf.format(Date())
+        val categoryName = when(category) {
+            "common" -> "상식"
+            "math" -> "암산"
+            "capital" -> "수도"
+            else -> "기타"
+        }
+        QuizDataManager.addRanking(score, categoryName, date)
+    }
 
     companion object {
         fun provideFactory(category: String): ViewModelProvider.Factory =

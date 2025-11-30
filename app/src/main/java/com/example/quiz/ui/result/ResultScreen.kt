@@ -17,7 +17,9 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun ResultScreen(
     score: Int,
-    onGoHome: () -> Unit
+    onGoHome: () -> Unit,
+    onShowWrongNote: () -> Unit,
+    onShowRanking: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -53,6 +55,21 @@ fun ResultScreen(
                 )
             }
         }
+
+        // 오답 노트 & 랭킹 버튼
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            Button(onClick = onShowWrongNote) {
+                Text("오답 노트 확인")
+            }
+            Button(onClick = onShowRanking) {
+                Text("전체 랭킹")
+            }
+        }
+
+        Spacer(modifier = Modifier.height(20.dp))
 
         // 버튼: 다시 하기(퀴즈로 돌아가기)
         Button(

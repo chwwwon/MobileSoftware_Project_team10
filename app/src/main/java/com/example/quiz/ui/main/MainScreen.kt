@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
@@ -27,7 +29,8 @@ import com.example.quiz.R
 
 @Composable
 fun MainScreen(
-    onSelectCategory: (String) -> Unit
+    onSelectCategory: (String) -> Unit,
+    onShowRanking: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -60,7 +63,7 @@ fun MainScreen(
         CategoryCard(
             title = "암산 퀴즈",
             background = Color(0xFFF0D96A),
-            icon = R.drawable.ic_map //나중에 math 추가 후 변경
+            icon = R.drawable.ic_math //나중에 math 추가 후 변경
         ) {
             onSelectCategory("math")
         }
@@ -72,6 +75,17 @@ fun MainScreen(
             icon = R.drawable.ic_map
         ) {
             onSelectCategory("capital")
+        }
+
+        Spacer(modifier = Modifier.height(20.dp))
+
+        // 랭킹 보기 버튼 추가
+        Button(
+            onClick = onShowRanking,
+            modifier = Modifier.fillMaxWidth().height(50.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = Color.DarkGray)
+        ) {
+            Text("명예의 전당 (랭킹 보기)")
         }
     }
 }

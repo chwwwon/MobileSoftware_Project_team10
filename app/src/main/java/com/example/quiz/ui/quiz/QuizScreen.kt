@@ -2,35 +2,26 @@ package com.example.quiz.ui.quiz
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.quiz.ui.quiz.components.AnswerButton
 import androidx.lifecycle.viewmodel.compose.viewModel
-import kotlin.collections.forEachIndexed
 import com.example.quiz.data.SoundManager
+import com.example.quiz.ui.quiz.QuizViewModel
+import com.example.quiz.ui.quiz.getCategoryName
+import com.example.quiz.ui.quiz.components.AnswerButton
+import com.example.quiz.ui.quiz.components.QuestionCard
 
-
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun QuizScreen(
     category: String,
@@ -39,16 +30,15 @@ fun QuizScreen(
     val viewModel: QuizViewModel =
         viewModel(factory = QuizViewModel.provideFactory(category))
 
-    val question = viewModel.currentQuestion
+    val currentQuestion = viewModel.currentQuestion
     val remaining = (viewModel.totalQuestions - viewModel.currentIndex - 1)
-    val correctCount = viewModel.score
+    val correctCount = viewModel.score / 10
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Color(0xFFF8F8F8))
     ) {
-
         // 상단 바
         TopBar(categoryName = getCategoryName(category))
 
@@ -60,16 +50,7 @@ fun QuizScreen(
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        // 문제 텍스트
-        Text(
-            text = question.question,
-            fontSize = 26.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 24.dp, vertical = 40.dp),
-            textAlign = TextAlign.Center
-        )
+        QuestionCard(questionText = currentQuestion.question)
 
         Spacer(modifier = Modifier.height(32.dp))
 
@@ -79,7 +60,7 @@ fun QuizScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            question.choices.forEachIndexed { index, choice ->
+            currentQuestion.choices.forEachIndexed { index, choice ->
 
                 val bgColor =
                     if (viewModel.isAnswerChecked) {
@@ -93,7 +74,7 @@ fun QuizScreen(
                         else Color(0xFFE0E0E0)
                     }
 
-                QuizChoiceButton(
+                AnswerButton(
                     text = choice,
                     backgroundColor = bgColor,
                     enabled = !viewModel.isAnswerChecked,
@@ -161,7 +142,7 @@ fun QuizChoiceButton(
 ) {
     val clickableModifier =
         if (enabled) Modifier.clickable { onClick() }
-        else Modifier // 클릭 안 됨, 대신 색 유지
+        else Modifier
 
     Box(
         modifier = Modifier
@@ -209,6 +190,7 @@ fun BottomSubmitNextButton(
         Button(
             onClick = {
                 if (viewModel.isLastQuestion()) {
+                    viewModel.saveRank()
                     onFinish(viewModel.score)
                 } else {
                     viewModel.goToNext()
