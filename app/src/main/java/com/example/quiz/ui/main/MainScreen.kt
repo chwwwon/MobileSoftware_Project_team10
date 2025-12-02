@@ -1,7 +1,9 @@
 package com.example.quiz.ui.main
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -10,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -20,6 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -35,94 +37,129 @@ fun MainScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(20.dp),
+            .background(Color.White)
+            .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Spacer(modifier = Modifier.height(40.dp))
 
+        // 타이틀
         Text(
             text = "언제나 재미있는 퀴즈!",
-            fontSize = 22.sp,
-            fontWeight = FontWeight.Bold
+            fontSize = 24.sp,
+            fontWeight = FontWeight.Bold,
+            color = Color(0xFF2D3436)
         )
         Text(
-            text = "오늘도 재미있게 퀴즈 풀어봐요~",
-            fontSize = 16.sp,
-            modifier = Modifier.padding(bottom = 24.dp)
+            text = "퀴즈 주제를 골라보세요~",
+            fontSize = 14.sp,
+            color = Color.Gray,
+            modifier = Modifier.padding(top = 8.dp, bottom = 40.dp)
         )
 
         // 상식 퀴즈
-        CategoryCard(
+        SimpleCategoryCard(
             title = "상식 퀴즈",
-            background = Color(0xFF678DFE),
-            icon = R.drawable.ic_idea
+            background = Color(0xFF5B9FED),
+            iconLeft = R.drawable.ic_idea,
+            iconRight = R.drawable.ic_idea
         ) {
             onSelectCategory("common")
         }
 
+        Spacer(modifier = Modifier.height(16.dp))
+
         // 암산 퀴즈
-        CategoryCard(
+        SimpleCategoryCard(
             title = "암산 퀴즈",
-            background = Color(0xFFF0D96A),
-            icon = R.drawable.ic_math //나중에 math 추가 후 변경
+            background = Color(0xFFFDB777),
+            iconLeft = R.drawable.ic_math,
+            iconRight = R.drawable.ic_math
         ) {
             onSelectCategory("math")
         }
 
+        Spacer(modifier = Modifier.height(16.dp))
+
         // 수도 퀴즈
-        CategoryCard(
+        SimpleCategoryCard(
             title = "수도 퀴즈",
-            background = Color(0xFFE58CAE),
-            icon = R.drawable.ic_map
+            background = Color(0xFF8B9FED),
+            iconLeft = R.drawable.ic_map,
+            iconRight = R.drawable.ic_map
         ) {
             onSelectCategory("capital")
         }
 
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.weight(1f))
 
-        // 랭킹 보기 버튼 추가
+        // 랭킹 버튼
         Button(
             onClick = onShowRanking,
-            modifier = Modifier.fillMaxWidth().height(50.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = Color.DarkGray)
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(56.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(0xFF4A5568)
+            ),
+            shape = RoundedCornerShape(12.dp)
         ) {
-            Text("명예의 전당 (랭킹 보기)")
+            Text(
+                "명예의 전당 (랭킹 보기)",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Medium,
+                color = Color.White
+            )
         }
+
+        Spacer(modifier = Modifier.height(20.dp))
     }
 }
 
 @Composable
-fun CategoryCard(
+fun SimpleCategoryCard(
     title: String,
     background: Color,
-    icon: Int,
+    iconLeft: Int,
+    iconRight: Int,
     onClick: () -> Unit
 ) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 10.dp)
             .height(100.dp)
+            .shadow(4.dp, RoundedCornerShape(16.dp))
             .clickable { onClick() },
-        colors = CardDefaults.cardColors(containerColor = background),
-        shape = RoundedCornerShape(20.dp)
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(containerColor = background)
     ) {
         Row(
-            modifier = Modifier.padding(20.dp),
-            verticalAlignment = Alignment.CenterVertically
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 24.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
+            // 왼쪽 아이콘
             Image(
-                painter = painterResource(icon),
+                painter = painterResource(iconLeft),
                 contentDescription = null,
                 modifier = Modifier.size(48.dp)
             )
 
-            Spacer(modifier = Modifier.width(16.dp))
-
+            // 제목
             Text(
                 text = title,
                 color = Color.White,
                 fontWeight = FontWeight.Bold,
-                fontSize = 20.sp
+                fontSize = 22.sp
+            )
+
+            // 오른쪽 아이콘
+            Image(
+                painter = painterResource(iconRight),
+                contentDescription = null,
+                modifier = Modifier.size(48.dp)
             )
         }
     }
