@@ -30,6 +30,7 @@ import com.example.quiz.ui.quiz.QuizViewModel
 import com.example.quiz.ui.quiz.getCategoryName
 import com.example.quiz.ui.quiz.components.AnswerButton
 import com.example.quiz.ui.quiz.components.QuestionCard
+import com.example.quiz.ui.theme.Pretendard
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -152,7 +153,8 @@ fun QuizScreen(
                         if (viewModel.isLastQuestion()) "결과 보기" else "다음",
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
-                        color = Color.White
+                        color = Color.White,
+                        fontFamily = Pretendard
                     )
                 }
             }
@@ -189,20 +191,23 @@ fun FeedbackBanner(isCorrect: Boolean, modifier: Modifier = Modifier) {
         ) {
             Text(
                 text = if (isCorrect) "⭕" else "❌",
-                fontSize = 64.sp
+                fontSize = 64.sp,
+                fontFamily = Pretendard
             )
             Spacer(modifier = Modifier.height(16.dp))
             Text(
                 text = if (isCorrect) "정답입니다!" else "오답입니다!",
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
-                color = if (isCorrect) Color(0xFF51CF66) else Color(0xFFFF6B88)
+                color = if (isCorrect) Color(0xFF51CF66) else Color(0xFFFF6B88),
+                fontFamily = Pretendard
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = if (isCorrect) "잘하셨어요!" else "다음엔 맞출 수 있어요!",
                 fontSize = 14.sp,
-                color = Color.Gray
+                color = Color.Gray,
+                fontFamily = Pretendard
             )
         }
     }
@@ -226,15 +231,17 @@ fun SimpleTopBar(categoryName: String, currentIndex: Int, totalQuestions: Int) {
         ) {
             Text(
                 text = categoryName,
-                fontSize = 20.sp,
+                fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color(0xFF2D3436)
+                color = Color(0xFF2D3436),
+                fontFamily = Pretendard
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = "문제 $currentIndex / $totalQuestions",
-                fontSize = 14.sp,
-                color = Color.Gray
+                fontSize = 16.sp,
+                color = Color.Gray,
+                fontFamily = Pretendard
             )
 
             // 진행률 바
@@ -270,21 +277,23 @@ fun SimpleStatsCard(remaining: Int, correct: Int) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(
                     "남은 문제",
-                    fontSize = 13.sp,
-                    color = Color.Gray
+                    fontSize = 16.sp,
+                    color = Color.Gray,
+                    fontFamily = Pretendard
                 )
                 Text(
                     "${remaining}개",
                     fontSize = 22.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color(0xFFFF6B88),
-                    modifier = Modifier.padding(top = 4.dp)
+                    modifier = Modifier.padding(top = 3.dp),
+                    fontFamily = Pretendard
                 )
             }
 
             Divider(
                 modifier = Modifier
-                    .height(50.dp)
+                    .height(60.dp)
                     .width(1.dp),
                 color = Color.LightGray
             )
@@ -292,15 +301,17 @@ fun SimpleStatsCard(remaining: Int, correct: Int) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(
                     "정답 수",
-                    fontSize = 13.sp,
-                    color = Color.Gray
+                    fontSize = 16.sp,
+                    color = Color.Gray,
+                    fontFamily = Pretendard
                 )
                 Text(
                     "${correct}개",
                     fontSize = 22.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color(0xFF51CF66),
-                    modifier = Modifier.padding(top = 4.dp)
+                    modifier = Modifier.padding(top = 3.dp),
+                    fontFamily = Pretendard
                 )
             }
         }
@@ -325,11 +336,12 @@ fun SimpleQuestionCard(questionText: String) {
         ) {
             Text(
                 text = questionText,
-                fontSize = 20.sp,
+                fontSize = 22.sp,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
                 lineHeight = 28.sp,
-                color = Color(0xFF2D3436)
+                color = Color(0xFF2D3436),
+                fontFamily = Pretendard
             )
         }
     }
@@ -363,9 +375,10 @@ fun SimpleAnswerButton(
                 text = text,
                 fontSize = 17.sp,
                 color = if (backgroundColor == Color.White) Color(0xFF2D3436) else Color.White,
-                fontWeight = FontWeight.Medium,
+                fontWeight = FontWeight.SemiBold,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.padding(horizontal = 20.dp)
+                modifier = Modifier.padding(horizontal = 20.dp),
+                fontFamily = Pretendard
             )
         }
     }

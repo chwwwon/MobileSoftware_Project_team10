@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.example.quiz.ui.theme.Pretendard
 
 @Composable
 fun QuestionCard(questionText: String) {
@@ -22,8 +23,9 @@ fun QuestionCard(questionText: String) {
         Text(
             text = questionText,
             style = MaterialTheme.typography.titleLarge,
-            modifier = Modifier.padding(24.dp),
-            textAlign = TextAlign.Center
+            modifier = Modifier.padding(30.dp),
+            textAlign = TextAlign.Center,
+            fontFamily = Pretendard
         )
     }
 }
