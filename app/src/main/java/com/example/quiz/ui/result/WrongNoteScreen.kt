@@ -16,6 +16,9 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Devices
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.quiz.R
@@ -26,13 +29,9 @@ import com.example.quiz.data.QuizDataManager
 fun WrongNoteScreen(onBack: () -> Unit) {
     val wrongList = QuizDataManager.currentWrongAnswers
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.White)
-    ) {
-        Column(modifier = Modifier.fillMaxSize()) {
-            // 상단 바
+    Scaffold(
+        containerColor = Color(0xFFF2F6FF),
+        topBar = {
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -42,81 +41,47 @@ fun WrongNoteScreen(onBack: () -> Unit) {
                 shape = RoundedCornerShape(16.dp)
             ) {
                 Row(
-                    modifier = Modifier
+                    Modifier
                         .fillMaxWidth()
                         .padding(16.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     IconButton(onClick = onBack) {
-                        Icon(
-                            Icons.Default.ArrowBack,
-                            contentDescription = "Back",
-                            tint = Color(0xFF2D3436)
-                        )
+                        Icon(Icons.Default.ArrowBack, contentDescription = "Back", tint = Color(0xFF2D3436))
                     }
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        "오답 노트",
-                        fontSize = 22.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color(0xFF2D3436)
-                    )
+                    Spacer(Modifier.width(8.dp))
+                    Text("오답 노트", fontSize = 22.sp, fontWeight = FontWeight.Bold, color = Color(0xFF2D3436))
                 }
             }
+        }
+    ) { innerPadding ->
 
-            if (wrongList.isEmpty()) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(24.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .shadow(4.dp, RoundedCornerShape(20.dp)),
-                        colors = CardDefaults.cardColors(containerColor = Color(0xFFF5F5F5)),
-                        shape = RoundedCornerShape(20.dp)
-                    ) {
-                        Column(
-                            modifier = Modifier.padding(40.dp),
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            Text(
-                                "🎉",
-                                fontSize = 64.sp
-                            )
-                            Spacer(modifier = Modifier.height(16.dp))
-                            Text(
-                                "완벽합니다!",
-                                fontSize = 24.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = Color(0xFF51CF66)
-                            )
-                            Text(
-                                "틀린 문제가 없어요!",
-                                fontSize = 16.sp,
-                                color = Color.Gray,
-                                modifier = Modifier.padding(top = 8.dp)
-                            )
-                        }
-                    }
+        if (wrongList.isEmpty()) {
+            // 비어있을 때는 전체 화면 가운데 표시
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding),
+                contentAlignment = Alignment.Center
+            ) {
+                EmptyWrongNoteCard()
+            }
+
+        } else {
+
+            // 스크롤 가능한 리스트
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding)
+                    .padding(horizontal = 16.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                items(wrongList) { wrong ->
+                    SimpleWrongAnswerCard(wrong)
                 }
-            } else {
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(horizontal = 16.dp),
-                    verticalArrangement = Arrangement.spacedBy(16.dp)
-                ) {
-                    item { Spacer(modifier = Modifier.height(4.dp)) }
 
-                    items(wrongList) { wrong ->
-                        SimpleWrongAnswerCard(wrong = wrong)
-                    }
-
-                    item { Spacer(modifier = Modifier.height(16.dp)) }
-                }
+                item { Spacer(modifier = Modifier.height(16.dp)) }
             }
         }
     }
@@ -140,7 +105,7 @@ fun SimpleWrongAnswerCard(wrong: com.example.quiz.data.WrongAnswer) {
             ) {
                 Text(
                     text = "Q.",
-                    fontSize = 18.sp,
+                    fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color(0xFFFF6B88)
                 )
@@ -171,12 +136,12 @@ fun SimpleWrongAnswerCard(wrong: com.example.quiz.data.WrongAnswer) {
                 Column {
                     Text(
                         text = "내 답변",
-                        fontSize = 12.sp,
+                        fontSize = 14.sp,
                         color = Color.Gray
                     )
                     Text(
                         text = wrong.question.choices[wrong.selectedIndex],
-                        fontSize = 16.sp,
+                        fontSize = 20.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color(0xFFFF6B88)
                     )
@@ -210,4 +175,61 @@ fun SimpleWrongAnswerCard(wrong: com.example.quiz.data.WrongAnswer) {
             }
         }
     }
+}
+
+@Composable
+fun WrongNoteList(
+    wrongList: List<com.example.quiz.data.WrongAnswer>,
+    modifier: Modifier = Modifier
+) {
+    LazyColumn(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(horizontal = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        item { Spacer(modifier = Modifier.height(4.dp)) }
+
+        items(wrongList) { wrong ->
+            SimpleWrongAnswerCard(wrong = wrong)
+        }
+
+        item { Spacer(modifier = Modifier.height(16.dp)) }
+    }
+}
+
+@Composable
+fun EmptyWrongNoteCard() {
+    Card(
+        modifier = Modifier
+            .wrapContentWidth()
+            .wrapContentHeight()
+            .shadow(4.dp, RoundedCornerShape(20.dp)),
+        colors = CardDefaults.cardColors(containerColor = Color(0xFFF5F5F5)),
+        shape = RoundedCornerShape(20.dp)
+    ) {
+        Column(
+            modifier = Modifier.padding(40.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+
+        ) {
+            Text("🎉", fontSize = 64.sp)
+            Spacer(Modifier.height(16.dp))
+            Text("완벽합니다!",
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color(0xFF51CF66),
+                textAlign = TextAlign.Center
+            )
+            Text("틀린 문제가 없어요!", fontSize = 16.sp, color = Color.Gray, modifier = Modifier.padding(top = 8.dp))
+        }
+    }
+}
+
+@Preview(showBackground = true, device = Devices.PIXEL_4)
+@Composable
+fun WrongNoteScreenPreview() {
+    WrongNoteScreen(
+        onBack = {}
+    )
 }

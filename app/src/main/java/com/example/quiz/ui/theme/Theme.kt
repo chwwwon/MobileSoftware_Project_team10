@@ -51,8 +51,8 @@ fun QuizTheme(
     }
 
     MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography,
-        content = content
-    )
+        typography = AppTypography
+    ) {
+        content()
+    }
 }

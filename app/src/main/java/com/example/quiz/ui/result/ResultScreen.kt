@@ -19,6 +19,8 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Devices
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -32,7 +34,7 @@ fun ResultScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.White)
+            .background(Color(0xFFF2F6FF))
             .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
@@ -153,4 +155,15 @@ fun ResultScreen(
             )
         }
     }
+}
+
+@Preview(showBackground = true, device = Devices.PIXEL_4)
+@Composable
+fun ResultScreenPreview() {
+    ResultScreen(
+        score = 85,
+        onGoHome = {},
+        onShowWrongNote = {},
+        onShowRanking = {}
+    )
 }

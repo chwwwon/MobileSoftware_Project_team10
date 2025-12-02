@@ -17,6 +17,8 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Devices
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.quiz.R
@@ -30,7 +32,7 @@ fun RankingScreen(onBack: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.White)
+            .background(Color(0xFFF2F6FF))
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
             // 상단 바
@@ -226,4 +228,12 @@ fun RankingCardWithMedal(rank: Int, entry: com.example.quiz.data.RankingEntry) {
             }
         }
     }
+}
+
+@Preview(showBackground = true, device = Devices.PIXEL_4)
+@Composable
+fun RankingScreenPreview() {
+    RankingScreen(
+        onBack = {}
+    )
 }

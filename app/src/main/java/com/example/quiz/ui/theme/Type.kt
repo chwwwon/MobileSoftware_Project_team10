@@ -8,34 +8,52 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.example.quiz.R
 
-// Set of Material typography styles to start with
-val Typography = Typography(
-    bodyLarge = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 16.sp,
-        lineHeight = 24.sp,
-        letterSpacing = 0.5.sp
-    )
-    /* Other default text styles to override
-    titleLarge = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 22.sp,
-        lineHeight = 28.sp,
-        letterSpacing = 0.sp
-    ),
-    labelSmall = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Medium,
-        fontSize = 11.sp,
-        lineHeight = 16.sp,
-        letterSpacing = 0.5.sp
-    )
-    */
-)
-
 val Pretendard = FontFamily(
     Font(R.font.pretendard_regular, FontWeight.Normal),
     Font(R.font.pretendard_bold, FontWeight.Bold)
+)
+
+// Set of Material typography styles to start with
+val AppTypography = Typography(
+    // 본문 계열
+    bodyLarge = TextStyle(
+        fontFamily = Pretendard,
+        fontWeight = FontWeight.Normal
+    ),
+    bodyMedium = TextStyle(
+        fontFamily = Pretendard,
+        fontWeight = FontWeight.Normal
+    ),
+    bodySmall = TextStyle(
+        fontFamily = Pretendard,
+        fontWeight = FontWeight.Normal
+    ),
+
+    // 제목 계열
+    titleLarge = TextStyle(
+        fontFamily = Pretendard,
+        fontWeight = FontWeight.Bold
+    ),
+    titleMedium = TextStyle(
+        fontFamily = Pretendard,
+        fontWeight = FontWeight.Bold
+    ),
+    titleSmall = TextStyle(
+        fontFamily = Pretendard,
+        fontWeight = FontWeight.Bold
+    ),
+
+    // 버튼/라벨
+    labelLarge = TextStyle(
+        fontFamily = Pretendard,
+        fontWeight = FontWeight.Bold
+    ),
+    labelMedium = TextStyle(
+        fontFamily = Pretendard,
+        fontWeight = FontWeight.Normal
+    ),
+    labelSmall = TextStyle(
+        fontFamily = Pretendard,
+        fontWeight = FontWeight.Normal
+    )
 )
