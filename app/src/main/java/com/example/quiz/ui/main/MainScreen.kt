@@ -25,9 +25,12 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Devices
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.quiz.R
+import com.example.quiz.ui.theme.Pretendard
 
 @Composable
 fun MainScreen(
@@ -48,19 +51,21 @@ fun MainScreen(
             text = "언제나 재미있는 퀴즈!",
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
-            color = Color(0xFF2D3436)
+            color = Color(0xFF2D3436),
+            fontFamily = Pretendard
         )
         Text(
             text = "퀴즈 주제를 골라보세요~",
-            fontSize = 14.sp,
+            fontSize = 16.sp,
             color = Color.Gray,
-            modifier = Modifier.padding(top = 8.dp, bottom = 40.dp)
+            modifier = Modifier.padding(top = 8.dp, bottom = 40.dp),
+            fontFamily = Pretendard
         )
 
         // 상식 퀴즈
         SimpleCategoryCard(
             title = "상식 퀴즈",
-            background = Color(0xFF5B9FED),
+            background = Color(0xFFBAD1F9),
             iconLeft = R.drawable.ic_idea,
             iconRight = R.drawable.ic_idea
         ) {
@@ -72,9 +77,9 @@ fun MainScreen(
         // 암산 퀴즈
         SimpleCategoryCard(
             title = "암산 퀴즈",
-            background = Color(0xFFFDB777),
-            iconLeft = R.drawable.ic_math,
-            iconRight = R.drawable.ic_math
+            background = Color(0xFF5D9BFB),
+            iconLeft = R.drawable.math,
+            iconRight = R.drawable.math
         ) {
             onSelectCategory("math")
         }
@@ -84,7 +89,7 @@ fun MainScreen(
         // 수도 퀴즈
         SimpleCategoryCard(
             title = "수도 퀴즈",
-            background = Color(0xFF8B9FED),
+            background = Color(0xFFFFE27A),
             iconLeft = R.drawable.ic_map,
             iconRight = R.drawable.ic_map
         ) {
@@ -98,15 +103,15 @@ fun MainScreen(
             onClick = onShowRanking,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(56.dp),
+                .height(70.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFF4A5568)
+                containerColor = Color(0xFFD7D7D7)
             ),
             shape = RoundedCornerShape(12.dp)
         ) {
             Text(
-                "명예의 전당 (랭킹 보기)",
-                fontSize = 16.sp,
+                "명예의 전당",
+                fontSize = 24.sp,
                 fontWeight = FontWeight.Medium,
                 color = Color.White
             )
@@ -127,7 +132,7 @@ fun SimpleCategoryCard(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .height(100.dp)
+            .height(120.dp)
             .shadow(4.dp, RoundedCornerShape(16.dp))
             .clickable { onClick() },
         shape = RoundedCornerShape(16.dp),
@@ -152,7 +157,8 @@ fun SimpleCategoryCard(
                 text = title,
                 color = Color.White,
                 fontWeight = FontWeight.Bold,
-                fontSize = 22.sp
+                fontSize = 24.sp,
+                fontFamily = Pretendard
             )
 
             // 오른쪽 아이콘
@@ -163,4 +169,13 @@ fun SimpleCategoryCard(
             )
         }
     }
+}
+
+@Preview(showBackground = true, device = Devices.PIXEL_4)
+@Composable
+fun MainScreenPreview() {
+    MainScreen(
+        onSelectCategory = {},
+        onShowRanking = {}
+    )
 }
