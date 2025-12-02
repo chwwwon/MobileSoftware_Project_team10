@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -103,18 +104,43 @@ fun MainScreen(
             onClick = onShowRanking,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(70.dp),
+                .height(74.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(0xFFD7D7D7)
             ),
             shape = RoundedCornerShape(12.dp)
         ) {
-            Text(
-                "명예의 전당",
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Medium,
-                color = Color.White
-            )
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 24.dp)
+            ) {
+                Image(
+                    painter = painterResource(R.drawable.ranking),
+                    contentDescription = null,
+                    modifier = Modifier.size(48.dp)
+                )
+
+                Spacer(modifier = Modifier.width(12.dp))
+
+                Text(
+                    text = "명예의 전당",
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.DarkGray,
+                    fontFamily = Pretendard
+                )
+
+                Spacer(modifier = Modifier.width(12.dp))
+
+                Image(
+                    painter = painterResource(R.drawable.ranking),
+                    contentDescription = null,
+                    modifier = Modifier.size(48.dp)
+                )
+            }
         }
 
         Spacer(modifier = Modifier.height(20.dp))
