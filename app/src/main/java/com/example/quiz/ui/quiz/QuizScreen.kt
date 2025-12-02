@@ -20,6 +20,8 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Devices
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -52,17 +54,13 @@ fun QuizScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(
-                brush = Brush.verticalGradient(
-                    colors = listOf(
-                        Color(0xFF667eea),
-                        Color(0xFF764ba2)
-                    )
-                )
-            )
+            .background(Color(0xFFF2F6FF))
     ) {
         Column(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxSize()
+                .statusBarsPadding()
+                .padding(top = 12.dp)
         ) {
             // 상단 헤더
             SimpleTopBar(
@@ -380,3 +378,12 @@ fun getCategoryName(category: String): String =
         "capital" -> "수도 퀴즈"
         else -> "퀴즈"
     }
+
+@Preview(showBackground = true, device = Devices.PIXEL_4)
+@Composable
+fun QuizScreenPreview() {
+    QuizScreen(
+        category = "capital",
+        onFinish = {}
+    )
+}
