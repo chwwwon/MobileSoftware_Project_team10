@@ -34,6 +34,9 @@ fun ResultScreen(
     onShowRanking: () -> Unit
 ) {
     val scrollState = rememberScrollState()
+    // 정답/오답 개수
+    val correct = score/10
+    val wrong = 10 - correct
 
     Column(
         modifier = Modifier
@@ -95,7 +98,44 @@ fun ResultScreen(
             }
         }
 
-        Spacer(modifier = Modifier.height(50.dp))
+        Spacer(modifier = Modifier.height(30.dp))
+
+        // 맞은 개수 / 틀린 개수
+        Card(
+            modifier = Modifier
+                .width(300.dp)
+                .height(75.dp)
+                .padding(horizontal = 10.dp),
+            colors = CardDefaults.cardColors(containerColor = Color.White),
+            elevation = CardDefaults.cardElevation(4.dp),
+            shape = RoundedCornerShape(16.dp)
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 10.dp),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text("맞은 개수", color = Color.Gray, fontSize = 15.sp)
+                    Text("${correct} 개", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                }
+
+                Box(
+                    modifier = Modifier
+                        .width(1.dp)
+                        .height(55.dp)
+                        .background(Color(0xFFC1B7B7))
+                )
+
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text("틀린 개수", color = Color.Gray, fontSize = 15.sp)
+                    Text("${wrong} 개", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                }
+            }
+        }
+
+        Spacer(modifier = Modifier.height(30.dp))
 
         // 버튼 그룹
         Row(
@@ -166,7 +206,7 @@ fun ResultScreen(
 @Composable
 fun ResultScreenPreview() {
     ResultScreen(
-        score = 85,
+        score = 80,
         onGoHome = {},
         onShowWrongNote = {},
         onShowRanking = {}
